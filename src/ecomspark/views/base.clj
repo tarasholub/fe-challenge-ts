@@ -12,6 +12,8 @@
      [:meta {:name "viewport" :content "width=device-width, initial-scale=1.0"}]
      [:link {:rel  "stylesheet"
              :href "/static/spectre.css"}]
+     [:link {:rel  "stylesheet"
+             :href "/static/brands.css"}]
      [:script {:src "/static/twinspark.js"}]
      [:style "
        .fade {opacity: 0; transition: opacity 0.5s ease-in-out; }
@@ -23,7 +25,8 @@
   (hi/html
     [:header.navbar
      [:section.navbar-section
-      [:a.navbar-brand.mr-2 {:href "/"} "EcomSpark"]]
+      [:a.navbar-brand.mr-2 {:href "/"} "EcomSpark"]
+      [:a.navbar-brand.mr-2 {:href "/brands"} "Brands"]]
      [:section.navbar-section
       (cart/HeaderCart nil)]]))
 

@@ -4,10 +4,12 @@
             [ring.middleware.session :as session-mw]
             [ring.middleware.params :as params-mw]
             [ring.middleware.json :as json-mw]
+            [ring.middleware.reload :as reload-mw]
 
             [ecomspark.views.pages :as pages]
             [ecomspark.views.cart :as cart]
             [ecomspark.views.product :as product]
+            [ecomspark.views.brand :as brand]
             [clojure.string :as str]))
 
 
@@ -19,6 +21,13 @@
    :pic   (format "https://picsum.photos/seed/%s/240/300"
             (hash id))})
 
+(defn get-brand [id]
+  {:id     id
+   :pic    (format "https://picsum.photos/seed/%s/64/64" (hash id))
+   :name   (str "Brand " id)
+   :rating (float (+ (-> id hash (mod 5))
+                     (-> id hash (mod 10) (/ 10))))
+   :stars  (mod (hash id) 10000)})
 
 ;;; Handlers
 
@@ -59,6 +68,43 @@
       {:status 405
        :body   "Method not allowed"})))
 
+(defn brand-add [{:keys [form-params session request-method]}]
+  (let [id       (get form-params "id")
+        brandsub (set (:brandsub session))]
+
+    (cond
+      (nil? id)
+      {:status 400
+       :body   {:error "No id supplied"}}
+
+      (= request-method :post)
+      (let [brandsub (conj brandsub id)]
+        {:status  200
+         :session {:brandsub brandsub}
+         :partial brand/SubscribeResult
+         :page    (fn [_]
+                    {:status  303
+                     :headers {"Location" "/brands"}})
+         :body    {:success  true
+                   :brandsub brandsub
+                   :count    (count brandsub)}})
+
+      (= request-method :delete)
+      (let [brandsub (disj brandsub id)]
+        {:status  200
+         :session {:brandsub brandsub}
+         :partial brand/UnsubscribeResult
+         :page    (fn [_]
+                    {:status  303
+                     :headers {"Location" "/brands"}})
+         :body    {:success  true
+                   :brandsub brandsub
+                   :count    (count brandsub)}})
+
+      :else
+      {:status 405
+       :body   "Method not allowed"})))
+
 
 (defn cart [{:keys [session]}]
   (let [cart (:cart session)]
@@ -79,6 +125,16 @@
      :page    pages/Index
      :headers {"Cache-Control" "max-age=3600"
                "Vary"          "Accept"}}))
+
+(defn brands [{:keys [query-params]}]
+  (let [offset (Integer. (get query-params "offset" 0))
+        n      10]
+    {:status  200
+     :body    {:offset (+ n offset)
+               :brands (for [i (range offset (+ n offset))]
+                         (get-brand (str i)))}
+     :partial brand/BrandList
+     :page    pages/Brands}))
 
 
 ;;; TwinSpark support
@@ -133,14 +189,17 @@
 (defn -app [req]
   ;;; ROUTER
   (let [func (case (:uri req)
-               "/"         #'products
-               "/cart"     #'cart
-               "/cart/add" #'cart-add
+               "/"          #'products
+               "/brands"    #'brands
+               "/cart"      #'cart
+               "/cart/add"  #'cart-add
+               "/brand/add" #'brand-add
                h404)]
     (func req)))
 
 
 (def app (-> -app
+             (reload-mw/wrap-reload)
              (twinspark-mw)
              (methods-mw)
              (json-mw/wrap-json-response)

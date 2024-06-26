@@ -2,6 +2,7 @@
   (:require [hiccup.core :as hi]
 
             [ecomspark.views.base :as base]
+            [ecomspark.views.brand :as brand]
             [ecomspark.views.product :as product]))
 
 
@@ -19,3 +20,9 @@
       [:h1 "Cart"]
       (product/ProductList {:cart?    true
                             :products (:products opts)}))))
+
+(defn Brands [opts]
+  (base/wrap "Brands - EcomSpark"
+    (hi/html
+      [:h1 "Brands"]
+      (brand/BrandList {:brands (:brands opts)}))))

@@ -1,11 +1,33 @@
-# EcomSpark
+# Тестове завдання TwinSpark frontend
 
-This is an example of a working app with [TwinSpark](https://piranha.github.io/twinspark-js/).
+Це приклад сайту на Clojure + TwinSpark (оригінал https://github.com/piranha/ecomspark) в який додано бекенд частину для сторінки зі списком брендів.
 
-This is a simple eCommerce site: product list with endless scroll, where you can
-add a product to cart and so on.
+Твоє завдання - доробити фронтенд. Треба форкнути репозиторій, додати свої зміни і відправити нам посилання на результат.
 
-## Variants
+1. Зверстати список брендів по дизайну. Верстка має бути адаптивною під мобільні пристрої та десктоп
+2. Доробити нескінченну пагінацію на сторінці брендів (зараз відображаються тільки перші 10)
+3. Зробити функціональною кнопку "Підписатись/Відписатись" (бекенд частина реалізована для API `/brand/add`)
 
-- [Python+Flask](https://github.com/vsolovyov/ecomspark-flask/)
-- [Java](https://github.com/taraskovaliv/econspark-java/)
+Передбачається, що основна робота буде виконуватись в файлах:
+
+- [src/ecomspark/views/brand.clj](src/ecomspark/views/brand.clj)
+- [resources/public/static/brands.css](resources/public/static/brands.css)
+
+Але не соромся дивитись на весь проект в пошуках прикладів.
+
+## Як запустити?
+
+- Встановити [Java 21](https://www.oracle.com/java/technologies/downloads/#java21)
+- Встановити [Clojure](https://clojure.org/guides/install_clojure)
+- Запустити `make`
+
+Це запустить вебсервер на адресі http://localhost:5454/ з авторелоадом коду.
+
+## Ресурси
+
+- Синтаксис шаблонів Hiccup https://github.com/weavejester/hiccup/wiki/Syntax
+- Документація по TwinSpark https://twinspark.js.org/
+- Короткий відео огляд як працює TwinSpark
+  - [Як працює TwinSpark](https://youtu.be/7fdMNKh6JYw?si=eqMdndTfCOtwvd0E)
+  - [Як працює TwinSpark 2: екшени](https://youtu.be/psXagg717DE?si=jER2WVGav8LWKxb3)
+- Есеї про htmx (інша бібліотека, такий же підхід) https://htmx.org/essays/
