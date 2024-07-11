@@ -95,7 +95,16 @@
     .brand-action {
         .btn {
             border-radius: 8px;
+        }
+
+        .btn-primary {
             border: none;
+        }
+
+        .btn-unsubscribe {
+            display: flex;
+            color: #000000;
+            border-color: #E5E5EA;
         }
     }
 }

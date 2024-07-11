@@ -17,7 +17,20 @@
             :ts-req-method "delete"}
      [:input {:type "hidden" :name "_method" :value "delete"}]
      [:input {:type "hidden" :name "id" :value id}]
-     [:button.btn.action-unsubscribe "Відстежується"]]))
+     [:button.btn.btn-unsubscribe
+      [:svg
+       {:width "24",
+        :height "24",
+        :viewBox "0 0 24 24",
+        :fill "none",
+        :xmlns "http://www.w3.org/2000/svg"}
+       [:path
+        {:d "M7.31818 12.0909L10.7273 15.5L16.1818 8",
+         :stroke "#32BDA5",
+         :stroke-width "1.5",
+         :stroke-linecap "round",
+         :stroke-linejoin "round"}]]
+      [:span "Відстежується"]]]))
 
 (defn Brand [{:keys [id pic name rating stars]} subscribed-brands]
   (let [subscribed? (contains? subscribed-brands id)]

@@ -105,7 +105,6 @@
       {:status 405
        :body   "Method not allowed"})))
 
-
 (defn cart [{:keys [session]}]
   (let [cart (:cart session)]
     {:status  200
@@ -129,7 +128,7 @@
 (defn brands [{:keys [query-params session]}]
   (let [offset (Integer. (get query-params "offset" 0))
         n 10
-        subscribed-brands (set (:brandsub session))]
+        subscribed-brands (set (or (:brandsub session) #{}))]
     {:status  200
      :body {:offset (+ n offset)
             :brands (for [i (range offset (+ n offset))]

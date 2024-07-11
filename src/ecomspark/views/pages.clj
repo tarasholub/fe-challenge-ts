@@ -25,4 +25,5 @@
   (base/wrap "Brands - EcomSpark"
     (hi/html
       [:h1 "Бренди"]
-      (brand/BrandList {:brands (:brands opts)}))))
+      (brand/BrandList {:brands (:brands opts)
+                        :subscribed-brands (:subscribed-brands opts)}))))
