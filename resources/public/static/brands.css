@@ -95,7 +95,7 @@ h1 {
         }
 
         .brand-stats-rating {
-            font-size: 14px;
+            font-size: 16px;
             line-height: 22px;
             font-weight: 700;
             color: #32BDA5;
@@ -103,6 +103,8 @@ h1 {
     }
 
     .brand-action {
+        margin-top: 8px;
+
         .btn {
             border-radius: 8px;
         }
@@ -134,6 +136,7 @@ h1 {
         }
 
         .brand-action {
+            margin-top: 0;
             margin-left: auto;
         }
     }
