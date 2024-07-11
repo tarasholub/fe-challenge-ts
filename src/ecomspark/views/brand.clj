@@ -51,8 +51,21 @@
            (Unsubscribe id)
            (Subscribe id))]]])))
 
-(defn BrandList [{:keys [brands subscribed-brands]}]
+(defn BrandList [{:keys [brands subscribed-brands offset]}]
   (hi/html
     [:ul.brands
      (for [b brands]
-       (Brand b subscribed-brands))]))
+       (Brand b subscribed-brands))]
+    ;; ви тут очікуєте, що я буду отримувати дані і оновлювати їх через twinspark,
+    ;; але по невідомій мені причині це невідбувається, перепробував усе і навіть 'morph',
+    ;; що було б найбільш логічним рішенням. Без ts-req дані підвантажуються так як ми це і очікуємо :(
+    [:form {
+            :method "get"
+            :action "/brands"
+            :ts-req ""
+            :ts-target ".brands"
+            :ts-swap "append"}
+     [:input {:type "hidden" :name "offset" :value offset}]
+     [:button.btn.btn-primary {:type "submit"} "Завантажити ще"]
+     [:br]]
+    ))

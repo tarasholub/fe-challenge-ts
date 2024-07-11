@@ -26,4 +26,5 @@
     (hi/html
       [:h1 "Бренди"]
       (brand/BrandList {:brands (:brands opts)
-                        :subscribed-brands (:subscribed-brands opts)}))))
+                        :subscribed-brands (:subscribed-brands opts)
+                        :offset (:offset opts)}))))
