@@ -25,9 +25,9 @@
   {:id     id
    :pic    (format "https://picsum.photos/seed/%s/64/64" (hash id))
    :name   (str "Brand " id)
-   :rating (float (+ (-> id hash (mod 5))
+   :stars (float (+ (-> id hash (mod 5))
                      (-> id hash (mod 10) (/ 10))))
-   :stars  (mod (hash id) 10000)})
+   :rating  (mod (hash id) 10000)})
 
 ;;; Handlers
 
@@ -70,7 +70,7 @@
 
 (defn brand-add [{:keys [form-params session request-method]}]
   (let [id       (get form-params "id")
-        brandsub (set (:brandsub session))]
+        brandsub (set (or (:brandsub session) #{}))]
 
     (cond
       (nil? id)
@@ -80,8 +80,8 @@
       (= request-method :post)
       (let [brandsub (conj brandsub id)]
         {:status  200
-         :session {:brandsub brandsub}
-         :partial brand/SubscribeResult
+         :session (assoc session :brandsub brandsub)
+         :partial brand/Unsubscribe
          :page    (fn [_]
                     {:status  303
                      :headers {"Location" "/brands"}})
@@ -92,8 +92,8 @@
       (= request-method :delete)
       (let [brandsub (disj brandsub id)]
         {:status  200
-         :session {:brandsub brandsub}
-         :partial brand/UnsubscribeResult
+         :session (assoc session :brandsub brandsub)
+         :partial brand/Subscribe
          :page    (fn [_]
                     {:status  303
                      :headers {"Location" "/brands"}})
@@ -126,13 +126,15 @@
      :headers {"Cache-Control" "max-age=3600"
                "Vary"          "Accept"}}))
 
-(defn brands [{:keys [query-params]}]
+(defn brands [{:keys [query-params session]}]
   (let [offset (Integer. (get query-params "offset" 0))
-        n      10]
+        n 10
+        subscribed-brands (set (:brandsub session))]
     {:status  200
-     :body    {:offset (+ n offset)
-               :brands (for [i (range offset (+ n offset))]
-                         (get-brand (str i)))}
+     :body {:offset (+ n offset)
+            :brands (for [i (range offset (+ n offset))]
+                         (get-brand (str i)))
+            :subscribed-brands subscribed-brands}
      :partial brand/BrandList
      :page    pages/Brands}))
 

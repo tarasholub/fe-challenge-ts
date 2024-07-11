@@ -1,1 +1,121 @@
-#brands { background-color: #eee; }
+.brand-stars-component {
+    --percent: calc(var(--rating) / 5 * 100%);
+
+    display: inline-block;
+    font-size: 14px;
+    line-height: 1;
+
+    &::before {
+        content: '★★★★★';
+        letter-spacing: 3px;
+        background: linear-gradient(90deg, #FF7752 var(--percent), #E5E5EA var(--percent));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+}
+
+.brands {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    list-style: none;
+    margin: 0;
+    background-color: #FAFAFA;
+}
+
+.brand {
+    display: flex;
+    padding: 16px;
+    gap: 16px;
+    margin: 0;
+    flex-wrap: wrap;
+    background-color: #FFFFFF;
+    border-radius: 4px;
+    box-shadow: 0 0 1px 0 rgba(40, 41, 61, 0.08);
+
+    &:hover {
+        box-shadow: 0 0 2px 0 rgba(96, 97, 112, 0.16);
+    }
+
+    .img-responsive {
+        height: 64px;
+        border-radius: 50%;
+    }
+
+    .brand-content {
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+    }
+
+    .brand-info {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .brand-name {
+        font-weight: 700;
+        font-size: 18px;
+        line-height: 24px;
+        margin: 0;
+    }
+
+    .brand-stats {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        list-style: none;
+        margin: 0;
+        gap: 12px;
+
+        & li {
+            margin: 0;
+        }
+
+        .brand-stats-stars {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+
+            & span {
+                font-size: 18px;
+                line-height: 24px;
+                font-weight: 700;
+            }
+        }
+
+        .brand-stats-rating {
+            font-size: 14px;
+            line-height: 22px;
+            font-weight: 700;
+            color: #32BDA5;
+        }
+    }
+
+    .brand-action {
+        .btn {
+            border-radius: 8px;
+            border: none;
+        }
+    }
+}
+
+@media only screen and (min-width: 768px) {
+    .brand {
+        padding: 24px;
+        gap: 32px;
+
+        .brand-content {
+            flex-direction: row;
+        }
+
+        .brand-name {
+            font-size: 24px;
+            line-height: 32px;
+        }
+
+        .brand-action {
+            margin-left: auto;
+        }
+    }
+}

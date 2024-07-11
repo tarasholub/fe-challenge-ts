@@ -24,5 +24,5 @@
 (defn Brands [opts]
   (base/wrap "Brands - EcomSpark"
     (hi/html
-      [:h1 "Brands"]
+      [:h1 "Бренди"]
       (brand/BrandList {:brands (:brands opts)}))))
