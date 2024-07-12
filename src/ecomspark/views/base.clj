@@ -13,6 +13,8 @@
      [:link {:rel  "stylesheet"
              :href "/static/spectre.css"}]
      [:link {:rel  "stylesheet"
+                  :href "/static/common.css"}]
+     [:link {:rel  "stylesheet"
              :href "/static/brands.css"}]
      [:script {:src "/static/twinspark.js"}]
      [:style "
@@ -26,7 +28,7 @@
     [:header.navbar
      [:section.navbar-section
       [:a.navbar-brand.mr-2 {:href "/"} "EcomSpark"]
-      [:a.navbar-brand.mr-2 {:href "/brands"} "Brands"]]
+      [:a.navbar-brand.mr-2 {:href "/brands"} "Бренди"]]
      [:section.navbar-section
       (cart/HeaderCart nil)]]))
 
@@ -39,11 +41,10 @@
 (defn wrap [title content]
   (hi/html (:html5 hiccup.page/doctype)
     [:html
-     (Head title) ;;; <-- title
-     [:style ".container { background-color: #FAFAFA; }"]
+     (Head title)
      [:body.container {}
       [:div.columns
-       [:div {:class "column col-6 col-xl-8 col-lg-10 col-md-12 col-mx-auto"}
+       [:div {:class "column col-6 col-xl-8 col-lg-10 col-md-12 col-mx-auto app-container"}
         (Nav)
-        content ;;; <-- content
+        content
         (Footer)]]]]))

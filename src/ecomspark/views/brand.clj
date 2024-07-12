@@ -1,5 +1,6 @@
 (ns ecomspark.views.brand
-  (:require [hiccup.core :as hi]))
+  (:require [hiccup.core :as hi]
+            [ring.util.codec :as codec]))
 
 (defn Subscribe [id]
   (hi/html
@@ -53,19 +54,15 @@
 
 (defn BrandList [{:keys [brands subscribed-brands offset]}]
   (hi/html
-    [:ul.brands
-     (for [b brands]
-       (Brand b subscribed-brands))]
-    ;; ви тут очікуєте, що я буду отримувати дані і оновлювати їх через twinspark,
-    ;; але по невідомій мені причині це невідбувається, перепробував усе і навіть 'morph',
-    ;; що було б найбільш логічним рішенням. Без ts-req дані підвантажуються так як ми це і очікуємо :(
-    [:form {
-            :method "get"
-            :action "/brands"
-            :ts-req ""
-            :ts-target ".brands"
-            :ts-swap "append"}
-     [:input {:type "hidden" :name "offset" :value offset}]
-     [:button.btn.btn-primary {:type "submit"} "Завантажити ще"]
-     [:br]]
+    [:div {:id "brands-container"}
+     [:ul.brands
+      (for [b brands]
+        (Brand b subscribed-brands))]
+     (when offset
+       [:div {:id "data-trigger"
+              :ts-req "/brands"
+              :ts-data (str "offset=" offset)
+              :ts-trigger "visible"
+              :ts-swap "append"
+              :ts-target "#brands-container"}])]
     ))
